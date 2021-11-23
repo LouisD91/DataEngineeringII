@@ -1,0 +1,6 @@
+USE data_eng;
+CREATE TABLE IF NOT EXISTS count (
+    number INT
+);
+INSERT INTO count VALUES (0);
+SET SQL_SAFE_UPDATES = 0;

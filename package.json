@@ -1,0 +1,14 @@
+{
+  "name": "date_eng",
+  "version": "1.0.0",
+  "description": "Node.js and mySQL on Docker",
+  "author": "Louis Dumontet <louisdumontet@gmail.com>",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "express": "4.17.1",
+    "mysql" : "2.18.1"
+  }
+}

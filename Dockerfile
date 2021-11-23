@@ -1,5 +1,7 @@
-FROM node:lastest
+FROM node:16
 WORKDIR /usr/src/app
 COPY * ./
-EXPOSE 5000
-CMD ["flask", "run"]
+EXPOSE 8080
+RUN npm install 
+ADD init.sql /docker-entrypoint-initdb.d/
+CMD ["node", "app.js"]

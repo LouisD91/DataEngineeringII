@@ -1,7 +1,46 @@
 version : "3"
+
+networks:
+  app-tier:
+    driver: bridge
+
 services : 
   web :
     build : 
       context : .
+    env_file: ./.env
     ports :
       - "8080:8080"
+    volumes: 
+        - .:/app/
+        - /app/node_modules
+    depends_on: 
+        - mysqldb
+    command: bash -c 'while !</dev/tcp/mysqldb/3306; do sleep 1; done; npm start'
+    networks:
+      - app-tier  
+    environment: 
+        MYSQL_HOST: mysqldb
+  mysqldb:
+    image: mysql
+    restart: always
+    env_file: ./.env
+    extra_hosts:
+      - "host.docker.internal:172.17.0.1"
+    expose:
+      - "3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: louis
+      MYSQL_DATABASE: data_eng
+    ports:
+      - "33061:3306"
+    volumes: 
+      - ./init.sql:/docker-entrypoint-initdb.d/1.sql
+      - mysql:/var/lib/mysql
+      - mysql_config:/etc/mysql
+    networks:
+      - app-tier  
+
+volumes:
+    mysql:
+    mysql_config:
